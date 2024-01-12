@@ -18,7 +18,7 @@ for ed in [500, 400, 300, 200, 100]:
 
     rating_change = ed * (win - lose) / 10
 
-    print("Result: ", win, '-', draw, '-', lose, " vs elo:", elo, " rating change: ")
+    print("Result: ", win, '-', draw, '-', lose, " vs elo:", elo, " rating change: ", rating_change)
 
     elo += rating_change
 
