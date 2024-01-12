@@ -4,6 +4,7 @@ import sys
 import time
 
 import chess
+import chess.pgn
 from stockfish import Stockfish
 
 import config
@@ -106,7 +107,7 @@ def play_game(white: Engine, black: Engine, game_time: int) -> int:
     board = chess.Board()
     while True and wtime > 0 and btime > 0:
         if board_debug:
-            print("CLOCK: w=", wtime, "|b=", btime)
+            print("CLOCK: w=", wtime, "b=", btime)
             print(board)
 
         move = None
@@ -128,6 +129,10 @@ def play_game(white: Engine, black: Engine, game_time: int) -> int:
         board.push_uci(move)
         outcome = board.outcome()
         if outcome is not None:
+            if board_debug:
+                print("FINAL:")
+                print("CLOCK: w=", wtime, "b=", btime)
+                print(board)
             if outcome.winner == chess.WHITE:
                 if board_debug:
                     print("White win outcome")
@@ -139,7 +144,10 @@ def play_game(white: Engine, black: Engine, game_time: int) -> int:
             if board_debug:
                 print("Draw")
             return 0
-
+    if board_debug:
+        print("FINAL:")
+        print("CLOCK: w=", wtime, "b=", btime)
+        print(board)
     if wtime <= 0:
         if board_debug:
             print("Black win time")
