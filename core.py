@@ -136,14 +136,24 @@ def play_game(white: Engine, black: Engine, game_time: int) -> int:
         outcome = board.outcome()
         if outcome is not None:
             if outcome.winner == chess.WHITE:
+                if board_debug:
+                    print("White win outcome")
                 return 1
             if outcome.winner == chess.BLACK:
+                if board_debug:
+                    print("Black win outcome")
                 return -1
+            if board_debug:
+                print("Draw")
             return 0
 
     if wtime <= 0:
+        if board_debug:
+            print("Black win time")
         return -1
     if btime <= 0:
+        if board_debug:
+            print("White win time")
         return 1
     return 0
 
