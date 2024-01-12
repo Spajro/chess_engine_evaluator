@@ -148,7 +148,10 @@ def play_game(white: Engine, black: Engine, game_time: int) -> int:
     return 0
 
 
-def play_match(engine1: Engine, engine2: Engine, games_per_color: int, game_time: int) -> tuple[list[int], list[int]]:
+def play_match(engine1: Engine, engine2: Engine, games_per_color: int, game_time: int) -> tuple[int, int, int]:
     wr = [play_game(engine1, engine2, game_time) for _ in range(games_per_color)]
     br = [play_game(engine2, engine1, game_time) for _ in range(games_per_color)]
-    return wr, br
+    win = wr.count(1) + br.count(-1)
+    draw = wr.count(0) + br.count(0)
+    lose = wr.count(-1) + br.count(1)
+    return win, draw, lose

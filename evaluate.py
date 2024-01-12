@@ -11,14 +11,10 @@ max_elo = 3000
 min_elo = 0
 engine = core.UciEngine(sys.argv[1])
 for ed in [500, 400, 300, 200, 100]:
-    wr, br = core.play_match(engine,
-                             core.StockfishEngine(elo),
-                             5,
-                             5 * 60 * 1000)
-
-    win = wr.count(1) + br.count(-1)
-    draw = wr.count(0) + br.count(0)
-    lose = wr.count(-1) + br.count(1)
+    win, draw, lose = core.play_match(engine,
+                                      core.StockfishEngine(elo),
+                                      5,
+                                      5 * 60 * 1000)
 
     rating_change = ed * (win - lose) / 10
 
