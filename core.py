@@ -36,49 +36,42 @@ class UciEngine(Engine):
     def __send(self, msg: str):
         self.proc.stdin.write(msg + "\n")
         self.proc.stdin.flush()
+        self.__log_out(msg)
+
+    def __read(self) -> str:
+        msg = self.proc.stdout.readline()
+        self.__log_in(msg)
+        return msg
 
     def __init__(self, engine_name: str):
         engine_path = config.get_path(engine_name)
         if engine_path is None:
-            print("Not configured Engine")
+            print("Unknown engine")
             exit(100)
         self.proc = subprocess.Popen(engine_path, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                                      text=True)
 
         self.__send("uci")
-        self.__log_out("uci")
-        name = self.proc.stdout.readline()
-        self.__log_in(name)
-        uci = self.proc.stdout.readline()
-        self.__log_in(uci)
-
+        name = self.__read()
+        uci = self.__read()
         self.__send("isready")
-        self.__log_out("isready")
-        readyok = self.proc.stdout.readline()
-        self.__log_in(readyok)
-
+        readyok = self.__read()
         self.__send("ucinewgame")
-        self.__log_out("ucinewgame")
 
     def update(self, move: str):
-        msg = "position " + move + "\n"
-        self.__send(msg)
-        self.__log_out(msg)
+        self.__send("position " + move + "\n")
 
     def make_move(self, wtime: int, btime: int) -> str:
         msg = "go wtime " + str(wtime) + " btime " + str(btime) + "\n"
         self.__send(msg)
-        self.__log_out(msg)
         tokens = ["null"]
         while tokens[0] != "bestmove":
-            result = self.proc.stdout.readline()
-            self.__log_in(result)
+            result = self.__read()
             tokens = result.split(' ')
         return tokens[1]
 
     def restart(self):
         self.__send("ucinewgame")
-        self.__log_out("ucinewgame")
 
 
 class StockfishEngine(Engine):
