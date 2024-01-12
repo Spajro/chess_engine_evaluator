@@ -44,4 +44,5 @@ def __cli():
     f.close()
 
 
-__cli()
+if __name__ == "__main__":
+    __cli()
