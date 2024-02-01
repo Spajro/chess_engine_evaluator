@@ -3,7 +3,7 @@ import sys
 
 from stockfish import Stockfish
 
-import config
+from src import config
 
 uci_debug = "--verbose=uci" in sys.argv or "--verbose=full" in sys.argv
 
