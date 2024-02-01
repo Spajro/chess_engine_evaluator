@@ -31,3 +31,13 @@ Display uci messages: ``--verbose=uci``
 Display board and clock: ``--verbose=board``
 
 All of above: ``--verbose=full``
+
+### Threading
+
+Enable threading and set number of threads by flags:
+
+``--threads=2``
+
+``--threads=5``
+
+``--threads=10``

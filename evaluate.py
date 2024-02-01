@@ -9,10 +9,10 @@ if len(sys.argv) < 2:
 elo = 1500
 max_elo = 3000
 min_elo = 0
-engine = core.UciEngine(sys.argv[1])
+engine = core.UciEngineTemplate(sys.argv[1])
 for ed in [500, 400, 300, 200, 100]:
     win, draw, lose = core.play_match(engine,
-                                      core.StockfishEngine(elo),
+                                      core.StockfishEngineTemplate(elo),
                                       5,
                                       5 * 60 * 1000)
 
