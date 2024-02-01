@@ -10,9 +10,9 @@ def get_path(engine_name: str) -> str | None:
 
 
 def load_config() -> dict:
-    if not os.path.exists("../config.json"):
+    if not os.path.exists("config.json"):
         return dict()
-    f = open("../config.json", "r")
+    f = open("config.json", "r")
     json_config = f.read()
     f.close()
     return json.loads(json_config)
