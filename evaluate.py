@@ -1,6 +1,7 @@
 import sys
 
-from src import core
+from src.core import play_match
+from src.templates import UciEngineTemplate, StockfishEngineTemplate
 
 
 def __get_eval_length_from_flags():
@@ -22,12 +23,11 @@ if len(sys.argv) < 2:
 elo = 1500
 max_elo = 3000
 min_elo = 0
-engine = core.UciEngineTemplate(sys.argv[1])
 for ed in [500, 400, 300, 200, 100]:
-    win, draw, lose = core.play_match(engine,
-                                      core.StockfishEngineTemplate(elo),
-                                      eval_length,
-                                      5 * 60 * 1000)
+    win, draw, lose = play_match(UciEngineTemplate(sys.argv[1]),
+                                 StockfishEngineTemplate(elo),
+                                 eval_length,
+                                 5 * 60 * 1000)
 
     rating_change = ed * (win - lose) / 10
 
