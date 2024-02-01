@@ -236,7 +236,7 @@ def __play_match_threaded(engine1: EngineTemplate,
     for i in range(int(games_per_color / threads)):
         for t in bt[i:i + threads - 1]:
             t.start()
-        wr += [t.join() for t in bt[i:i + threads - 1]]
+        br += [t.join() for t in bt[i:i + threads - 1]]
 
     win = wr.count(1) + br.count(-1)
     draw = wr.count(0) + br.count(0)
