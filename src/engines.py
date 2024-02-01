@@ -1,11 +1,11 @@
 import subprocess
-import sys
 
 from stockfish import Stockfish
 
 from src import config
+from src.flags import get_uci_debug
 
-uci_debug = "--verbose=uci" in sys.argv or "--verbose=full" in sys.argv
+uci_debug = get_uci_debug()
 
 
 class Engine:

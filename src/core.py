@@ -1,5 +1,4 @@
 import math
-import sys
 import time
 
 import chess
@@ -7,21 +6,11 @@ import chess.pgn
 from threading import Thread
 
 from src.engines import Engine
+from src.flags import get_threads, get_board_debug
 from src.templates import EngineTemplate
 
-
-def __load_threads_from_flag():
-    if "--threads=2" in sys.argv:
-        return 2
-    if "--threads=5" in sys.argv:
-        return 5
-    if "--threads=10" in sys.argv:
-        return 10
-    return 1
-
-
-board_debug = "--verbose=board" in sys.argv or "--verbose=full" in sys.argv
-threads = __load_threads_from_flag()
+board_debug = get_board_debug()
+threads = get_threads()
 
 
 def play_game(white: Engine, black: Engine, game_time: int) -> int:
