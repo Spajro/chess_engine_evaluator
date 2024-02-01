@@ -2,6 +2,19 @@ import sys
 
 import core
 
+
+def __get_eval_length_from_flags():
+    if "--length=short" in sys.argv:
+        return 5
+    if "--length=medium" in sys.argv:
+        return 10
+    if "--length=long" in sys.argv:
+        return 25
+    return 5
+
+
+eval_length = __get_eval_length_from_flags()
+
 if len(sys.argv) < 2:
     print("SYNTAX: evaluate.py ENGINE_NAME")
     exit(200)
@@ -13,7 +26,7 @@ engine = core.UciEngineTemplate(sys.argv[1])
 for ed in [500, 400, 300, 200, 100]:
     win, draw, lose = core.play_match(engine,
                                       core.StockfishEngineTemplate(elo),
-                                      5,
+                                      eval_length,
                                       5 * 60 * 1000)
 
     rating_change = ed * (win - lose) / 10
