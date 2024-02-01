@@ -1,6 +1,6 @@
 import sys
 
-import core
+from src import core
 
 
 def __get_eval_length_from_flags():

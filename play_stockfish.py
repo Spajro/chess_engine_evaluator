@@ -1,6 +1,6 @@
 import sys
 
-import core
+from src import core
 
 if len(sys.argv) < 5:
     print("SYNTAX: play_stockfish.py ENGINE STOCKFISH_ELO GAMES_PER_COLOR SECONDS_PER_GAME")
