@@ -14,8 +14,7 @@ min_elo = 0
 for ed in [500, 400, 300, 200, 100]:
     win, draw, lose = play_match(UciEngineTemplate(sys.argv[1]),
                                  StockfishEngineTemplate(elo),
-                                 get_eval_length(),
-                                 5 * 60 * 1000)
+                                 get_eval_length())
 
     rating_change = ed * (win - lose) / 10
 

@@ -6,14 +6,15 @@ import chess.pgn
 from threading import Thread
 
 from src.engines import Engine
-from src.flags import get_threads, get_board_debug
+from src.flags import get_threads, get_board_debug, get_time_control
 from src.templates import EngineTemplate
 
 board_debug = get_board_debug()
 threads = get_threads()
+game_time = get_time_control()
 
 
-def play_game(white: Engine, black: Engine, game_time: int) -> int:
+def play_game(white: Engine, black: Engine) -> int:
     white.restart()
     black.restart()
     wtime = game_time
@@ -77,21 +78,19 @@ def play_game(white: Engine, black: Engine, game_time: int) -> int:
 def play_match(engine1: EngineTemplate,
                engine2: EngineTemplate,
                games_per_color: int,
-               game_time: int
                ) -> tuple[int, int, int]:
     if threads == 1:
-        return __play_match(engine1.get_instance(), engine2.get_instance(), games_per_color, game_time)
+        return __play_match(engine1.get_instance(), engine2.get_instance(), games_per_color)
     else:
-        return __play_match_threaded(engine1, engine2, games_per_color, game_time)
+        return __play_match_threaded(engine1, engine2, games_per_color)
 
 
 def __play_match(engine1: Engine,
                  engine2: Engine,
                  games_per_color: int,
-                 game_time: int
                  ) -> tuple[int, int, int]:
-    wr = [play_game(engine1, engine2, game_time) for _ in range(games_per_color)]
-    br = [play_game(engine2, engine1, game_time) for _ in range(games_per_color)]
+    wr = [play_game(engine1, engine2) for _ in range(games_per_color)]
+    br = [play_game(engine2, engine1) for _ in range(games_per_color)]
     win = wr.count(1) + br.count(-1)
     draw = wr.count(0) + br.count(0)
     lose = wr.count(-1) + br.count(1)
@@ -101,14 +100,13 @@ def __play_match(engine1: Engine,
 def __play_match_threaded(engine1: EngineTemplate,
                           engine2: EngineTemplate,
                           games_per_color: int,
-                          game_time: int
                           ) -> tuple[int, int, int]:
     wr = []
     br = []
     we = [(engine1.get_instance(), engine2.get_instance()) for _ in range(games_per_color)]
     be = [(engine2.get_instance(), engine1.get_instance()) for _ in range(games_per_color)]
-    wt = [Thread(target=play_game, args=(e1, e2, game_time)) for (e1, e2) in we]
-    bt = [Thread(target=play_game, args=(e2, e1, game_time)) for (e1, e2) in be]
+    wt = [Thread(target=play_game, args=(e1, e2)) for (e1, e2) in we]
+    bt = [Thread(target=play_game, args=(e2, e1)) for (e1, e2) in be]
     for i in range(int(games_per_color / threads)):
         for t in wt[i:i + threads]:
             t.start()

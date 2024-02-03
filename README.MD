@@ -18,11 +18,11 @@ Evaluate uci engine
 
 Play a match between two uci engines
 
-``py play.py ENGINE1 ENGINE2 GAMES_PER_COLOR SECONDS_PER_GAME``
+``py play.py ENGINE1 ENGINE2 GAMES_PER_COLOR``
 
 Play a match between uci engine and stockfish of elo
 
-``py play_stockfish.py ENGINE STOCKFISH_ELO GAMES_PER_COLOR SECONDS_PER_GAME``
+``py play_stockfish.py ENGINE STOCKFISH_ELO GAMES_PER_COLOR``
 
 ### Debug
 
@@ -43,10 +43,21 @@ Enable threading and set number of threads by flags:
 ``--threads=10``
 
 ### Evaluation length
+
 Set number of games played in evaluation:
 
-``"--length=short"``
+``--length=short``
 
-``"--length=medium"``
+``--length=medium``
 
-``"--length=long"``
+``--length=long``
+
+### Time Control
+
+Set time control of games:
+
+``--time=bullet``
+
+``--time=blitz``
+
+``--time=rapid``

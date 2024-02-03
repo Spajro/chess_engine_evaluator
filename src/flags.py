@@ -21,6 +21,16 @@ def get_threads() -> int:
     return 1
 
 
+def get_time_control() -> int:
+    if "--time=bullet" in sys.argv:
+        return 60
+    if "--time=blitz" in sys.argv:
+        return 300
+    if "--time=rapid" in sys.argv:
+        return 600
+    return 300
+
+
 def get_board_debug() -> bool:
     return "--verbose=board" in sys.argv or "--verbose=full" in sys.argv
 
