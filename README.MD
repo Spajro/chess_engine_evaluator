@@ -4,7 +4,7 @@
 
 Set stockfish path:
 
-`` py setup.py stockfihs STOCKFISH_PATH``
+`` py setup.py stockfish STOCKFISH_PATH``
 
 Set uci engine path:
 
