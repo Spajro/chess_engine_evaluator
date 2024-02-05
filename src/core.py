@@ -1,9 +1,9 @@
+import concurrent.futures
 import math
 import time
 
 import chess
 import chess.pgn
-from threading import Thread
 
 from src.engines import Engine
 from src.flags import get_threads, get_board_debug, get_time_control
@@ -101,21 +101,14 @@ def __play_match_threaded(engine1: EngineTemplate,
                           engine2: EngineTemplate,
                           games_per_color: int,
                           ) -> tuple[int, int, int]:
-    wr = []
-    br = []
     we = [(engine1.get_instance(), engine2.get_instance()) for _ in range(games_per_color)]
     be = [(engine2.get_instance(), engine1.get_instance()) for _ in range(games_per_color)]
-    wt = [Thread(target=play_game, args=(e1, e2)) for (e1, e2) in we]
-    bt = [Thread(target=play_game, args=(e2, e1)) for (e1, e2) in be]
-    for i in range(int(games_per_color / threads)):
-        for t in wt[i:i + threads]:
-            t.start()
-        wr += [t.join() for t in wt[i:i + threads - 1]]
-
-    for i in range(int(games_per_color / threads)):
-        for t in bt[i:i + threads - 1]:
-            t.start()
-        br += [t.join() for t in bt[i:i + threads - 1]]
+    with concurrent.futures.ThreadPoolExecutor(threads) as executor:
+        futures = [executor.submit(play_game, e1, e2) for e1, e2 in we]
+    wr = [f.result() for f in futures]
+    with concurrent.futures.ThreadPoolExecutor(threads) as executor:
+        futures = [executor.submit(play_game, e1, e2) for e1, e2 in be]
+    br = [f.result() for f in futures]
 
     win = wr.count(1) + br.count(-1)
     draw = wr.count(0) + br.count(0)
