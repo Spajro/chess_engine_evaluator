@@ -23,12 +23,12 @@ def get_threads() -> int:
 
 def get_time_control() -> int:
     if "--time=bullet" in sys.argv:
-        return 60
+        return 60*1000
     if "--time=blitz" in sys.argv:
-        return 300
+        return 5*60*1000
     if "--time=rapid" in sys.argv:
-        return 600
-    return 300
+        return 10*60*1000
+    return 5*60*1000
 
 
 def get_board_debug() -> bool:
