@@ -45,6 +45,8 @@ def play_game(white: Engine, black: Engine) -> int:
         board.push_uci(move)
         outcome = board.outcome()
         if outcome is not None:
+            white.quit()
+            black.quit()
             if board_debug:
                 print("FINAL:")
                 print("CLOCK: w=", wtime, "b=", btime)
@@ -60,6 +62,8 @@ def play_game(white: Engine, black: Engine) -> int:
             if board_debug:
                 print("Draw")
             return 0
+    white.quit()
+    black.quit()
     if board_debug:
         print("FINAL:")
         print("CLOCK: w=", wtime, "b=", btime)
@@ -80,17 +84,17 @@ def play_match(engine1: EngineTemplate,
                games_per_color: int,
                ) -> tuple[int, int, int]:
     if threads == 1:
-        return __play_match(engine1.get_instance(), engine2.get_instance(), games_per_color)
+        return __play_match(engine1, engine2, games_per_color)
     else:
         return __play_match_threaded(engine1, engine2, games_per_color)
 
 
-def __play_match(engine1: Engine,
-                 engine2: Engine,
+def __play_match(engine1: EngineTemplate,
+                 engine2: EngineTemplate,
                  games_per_color: int,
                  ) -> tuple[int, int, int]:
-    wr = [play_game(engine1, engine2) for _ in range(games_per_color)]
-    br = [play_game(engine2, engine1) for _ in range(games_per_color)]
+    wr = [play_game(engine1.get_instance(), engine2.get_instance()) for _ in range(games_per_color)]
+    br = [play_game(engine2.get_instance(), engine1.get_instance()) for _ in range(games_per_color)]
     win = wr.count(1) + br.count(-1)
     draw = wr.count(0) + br.count(0)
     lose = wr.count(-1) + br.count(1)

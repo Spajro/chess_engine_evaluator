@@ -18,6 +18,9 @@ class Engine:
     def restart(self):
         pass
 
+    def quit(self):
+        pass
+
 
 class UciEngine(Engine):
 
@@ -69,6 +72,9 @@ class UciEngine(Engine):
     def restart(self):
         self.__send("ucinewgame")
 
+    def quit(self):
+        self.__send("quit")
+
 
 class StockfishEngine(Engine):
     def __init__(self, elo):
@@ -91,3 +97,6 @@ class StockfishEngine(Engine):
 
     def restart(self):
         self.stock.set_position()
+
+    def quit(self):
+        pass
