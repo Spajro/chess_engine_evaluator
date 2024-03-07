@@ -12,6 +12,9 @@ class Engine:
     def update(self, move: str):
         pass
 
+    def update_fen(self, fen: str, moves: [str]):
+        pass
+
     def make_move(self, wtime: int, btime: int) -> str:
         pass
 
@@ -60,6 +63,9 @@ class UciEngine(Engine):
     def update(self, move: str):
         self.__send("position " + move + "\n")
 
+    def update_fen(self, fen: str, moves: [str]):
+        self.__send("position " + fen + " " + " ".join(moves) + "\n")
+
     def make_move(self, wtime: int, btime: int) -> str:
         msg = "go wtime " + str(wtime) + " btime " + str(btime) + "\n"
         self.__send(msg)
@@ -87,6 +93,10 @@ class StockfishEngine(Engine):
 
     def update(self, move: str):
         self.stock.make_moves_from_current_position([move])
+
+    def update_fen(self, fen: str, moves: [str]):
+        self.stock.set_fen_position(fen, True)
+        self.stock.make_moves_from_current_position(moves)
 
     def make_move(self, wtime: int, btime: int):
         result = self.stock.get_best_move(wtime, btime)
