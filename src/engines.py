@@ -76,7 +76,7 @@ class UciEngine(Engine):
         while tokens[0] != "bestmove":
             result = self.__read()
             tokens = result.split(' ')
-        return tokens[1]
+        return tokens[1].strip()
 
     def make_move_time(self, move_time: int) -> str:
         msg = "go movetime " + str(move_time) + "\n"
@@ -85,7 +85,7 @@ class UciEngine(Engine):
         while tokens[0] != "bestmove":
             result = self.__read()
             tokens = result.split(' ')
-        return tokens[1]
+        return tokens[1].strip()
 
     def restart(self):
         self.__send("ucinewgame")
