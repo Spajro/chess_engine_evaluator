@@ -114,14 +114,14 @@ class StockfishEngine(Engine):
         result = self.stock.get_best_move(wtime, btime)
         if result is None:
             print(self.stock.get_board_visual())
-        self.update(result)
+        self.update([result])
         return result
 
     def make_move_time(self, move_time: int) -> str:
         result = self.stock.get_best_move_time(move_time)
         if result is None:
             print(self.stock.get_board_visual())
-        self.update(result)
+        self.update([result])
         return result
 
     def restart(self):
