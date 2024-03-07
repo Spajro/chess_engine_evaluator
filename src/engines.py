@@ -9,7 +9,7 @@ uci_debug = get_uci_debug()
 
 
 class Engine:
-    def update(self, move: str):
+    def update(self, moves: [str]):
         pass
 
     def update_fen(self, fen: str, moves: [str]):
@@ -60,8 +60,8 @@ class UciEngine(Engine):
         readyok = self.__read()
         self.__send("ucinewgame")
 
-    def update(self, move: str):
-        self.__send("position " + move + "\n")
+    def update(self, moves: [str]):
+        self.__send("position startpos " + " ".join(moves) + "\n")
 
     def update_fen(self, fen: str, moves: [str]):
         self.__send("position " + fen + " " + " ".join(moves) + "\n")
@@ -91,8 +91,8 @@ class StockfishEngine(Engine):
         self.stock = Stockfish(engine_path)
         self.stock.set_elo_rating(elo)
 
-    def update(self, move: str):
-        self.stock.make_moves_from_current_position([move])
+    def update(self, moves: [str]):
+        self.stock.make_moves_from_current_position(moves)
 
     def update_fen(self, fen: str, moves: [str]):
         self.stock.set_fen_position(fen, True)

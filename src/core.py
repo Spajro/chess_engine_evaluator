@@ -32,14 +32,14 @@ def play_game(white: Engine, black: Engine) -> int:
             move = white.make_move(wtime, btime).rstrip()
             ftime = math.ceil(time.time() * 1000 - stime)
             wtime -= ftime
-            black.update(move)
+            black.update([move])
 
         if not white_move:
             stime = time.time() * 1000
             move = black.make_move(wtime, btime).rstrip()
             ftime = math.ceil(time.time() * 1000 - stime)
             btime -= ftime
-            white.update(move)
+            white.update([move])
 
         white_move = not white_move
         board.push_uci(move)
