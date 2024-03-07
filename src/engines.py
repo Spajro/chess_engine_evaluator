@@ -18,6 +18,9 @@ class Engine:
     def make_move(self, wtime: int, btime: int) -> str:
         pass
 
+    def make_move_time(self, move_time: int) -> str:
+        pass
+
     def restart(self):
         pass
 
@@ -75,6 +78,15 @@ class UciEngine(Engine):
             tokens = result.split(' ')
         return tokens[1]
 
+    def make_move_time(self, move_time: int) -> str:
+        msg = "go movetime " + str(move_time) + "\n"
+        self.__send(msg)
+        tokens = ["null"]
+        while tokens[0] != "bestmove":
+            result = self.__read()
+            tokens = result.split(' ')
+        return tokens[1]
+
     def restart(self):
         self.__send("ucinewgame")
 
@@ -95,11 +107,18 @@ class StockfishEngine(Engine):
         self.stock.make_moves_from_current_position(moves)
 
     def update_fen(self, fen: str, moves: [str]):
-        self.stock.set_fen_position(fen, True)
+        self.stock.set_fen_position(fen, False)
         self.stock.make_moves_from_current_position(moves)
 
     def make_move(self, wtime: int, btime: int):
         result = self.stock.get_best_move(wtime, btime)
+        if result is None:
+            print(self.stock.get_board_visual())
+        self.update(result)
+        return result
+
+    def make_move_time(self, move_time: int) -> str:
+        result = self.stock.get_best_move_time(move_time)
         if result is None:
             print(self.stock.get_board_visual())
         self.update(result)
