@@ -13,9 +13,10 @@ class Puzzle:
         fields = row.split(',')
         self.fen = fields[1]
         self.moves = fields[2].split(" ")
+        self.tags = fields[7].split(" ")
 
     def __str__(self):
-        return "{" + self.fen + ",moves[" + ",".join(self.moves) + "]}"
+        return "{fen: " + self.fen + " ,tags: [" + ", ".join(self.tags) + "],moves: [" + ",".join(self.moves) + "]}"
 
 
 def solve_puzzle(engine: Engine, puzzle: Puzzle) -> Tuple[bool, list[str]]:
