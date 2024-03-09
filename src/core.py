@@ -83,28 +83,6 @@ def play_match(engine1: EngineTemplate,
                engine2: EngineTemplate,
                games_per_color: int,
                ) -> tuple[int, int, int]:
-    if threads == 1:
-        return __play_match(engine1, engine2, games_per_color)
-    else:
-        return __play_match_threaded(engine1, engine2, games_per_color)
-
-
-def __play_match(engine1: EngineTemplate,
-                 engine2: EngineTemplate,
-                 games_per_color: int,
-                 ) -> tuple[int, int, int]:
-    wr = [play_game(engine1.get_instance(), engine2.get_instance()) for _ in range(games_per_color)]
-    br = [play_game(engine2.get_instance(), engine1.get_instance()) for _ in range(games_per_color)]
-    win = wr.count(1) + br.count(-1)
-    draw = wr.count(0) + br.count(0)
-    lose = wr.count(-1) + br.count(1)
-    return win, draw, lose
-
-
-def __play_match_threaded(engine1: EngineTemplate,
-                          engine2: EngineTemplate,
-                          games_per_color: int,
-                          ) -> tuple[int, int, int]:
     we = [(engine1.get_instance(), engine2.get_instance(), lambda x: x) for _ in range(games_per_color)]
     be = [(engine2.get_instance(), engine1.get_instance(), lambda x: -1 * x) for _ in range(games_per_color)]
     data = we + be
