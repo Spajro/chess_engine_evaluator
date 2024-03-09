@@ -1,7 +1,6 @@
 import concurrent.futures
 from typing import Tuple
 
-from src.engines import Engine
 from src.flags import get_threads
 from src.templates import EngineTemplate
 
@@ -19,7 +18,8 @@ class Puzzle:
         return "{fen: " + self.fen + " ,tags: [" + ", ".join(self.tags) + "],moves: [" + ",".join(self.moves) + "]}"
 
 
-def solve_puzzle(engine: Engine, puzzle: Puzzle) -> Tuple[bool, list[str]]:
+def solve_puzzle(engine_template: EngineTemplate, puzzle: Puzzle) -> Tuple[bool, list[str]]:
+    engine = engine_template.get_instance()
     engine.update_fen(puzzle.fen, [puzzle.moves[0]])
     move_time = 10 * 1000
     moves = [puzzle.moves[0]]
@@ -47,10 +47,8 @@ def solve_puzzle(engine: Engine, puzzle: Puzzle) -> Tuple[bool, list[str]]:
 
 
 def solve_puzzles(engine: EngineTemplate, puzzles: [Puzzle]) -> list[Tuple[bool, Puzzle, list[str]]]:
-    data = [(engine.get_instance(), puzzle) for puzzle in puzzles]
-
     with concurrent.futures.ThreadPoolExecutor(threads) as executor:
-        futures = [(executor.submit(solve_puzzle, e, p), p) for e, p in data]
+        futures = [(executor.submit(solve_puzzle, engine, puzzle), puzzle) for puzzle in puzzles]
 
     result = [(f.result(), p) for f, p in futures]
     return [(f[0], p, f[1]) for f, p in result]
