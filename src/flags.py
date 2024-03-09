@@ -18,6 +18,8 @@ def get_threads() -> int:
         return 5
     if "--threads=10" in sys.argv:
         return 10
+    if "--threads=20" in sys.argv:
+        return 20
     return 1
 
 

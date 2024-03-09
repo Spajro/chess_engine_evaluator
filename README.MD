@@ -48,6 +48,8 @@ Enable threading and set number of threads by flags:
 
 ``--threads=10``
 
+``--threads=20``
+
 ### Evaluation length
 
 Set number of games played in evaluation:
