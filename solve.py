@@ -14,10 +14,10 @@ result = solve_puzzles(UciEngineTemplate(sys.argv[1]), puzzles)
 score = 0
 
 print("FAILED: ")
-for solved, puzzle in result:
+for solved, puzzle, optional_moves in result:
     if solved:
         score += 1
     else:
-        print(puzzle)
+        print(puzzle.__str__() + " | [" + ",".join(optional_moves) + "]")
 
 print("RESULT: " + str(score) + "/" + str(k))
