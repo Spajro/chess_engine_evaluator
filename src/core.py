@@ -105,16 +105,15 @@ def __play_match_threaded(engine1: EngineTemplate,
                           engine2: EngineTemplate,
                           games_per_color: int,
                           ) -> tuple[int, int, int]:
-    we = [(engine1.get_instance(), engine2.get_instance()) for _ in range(games_per_color)]
-    be = [(engine2.get_instance(), engine1.get_instance()) for _ in range(games_per_color)]
-    with concurrent.futures.ThreadPoolExecutor(threads) as executor:
-        futures = [executor.submit(play_game, e1, e2) for e1, e2 in we]
-    wr = [f.result() for f in futures]
-    with concurrent.futures.ThreadPoolExecutor(threads) as executor:
-        futures = [executor.submit(play_game, e1, e2) for e1, e2 in be]
-    br = [f.result() for f in futures]
+    we = [(engine1.get_instance(), engine2.get_instance(), lambda x: x) for _ in range(games_per_color)]
+    be = [(engine2.get_instance(), engine1.get_instance(), lambda x: -1 * x) for _ in range(games_per_color)]
+    data = we + be
 
-    win = wr.count(1) + br.count(-1)
-    draw = wr.count(0) + br.count(0)
-    lose = wr.count(-1) + br.count(1)
+    with concurrent.futures.ThreadPoolExecutor(threads) as executor:
+        futures = [(executor.submit(play_game, e1, e2), l) for e1, e2, l in data]
+    results = [l(f.result()) for f, l in futures]
+
+    win = results.count(1)
+    draw = results.count(0)
+    lose = results.count(-1)
     return win, draw, lose
