@@ -2,9 +2,13 @@ import json
 import sys
 
 from src.config import STOCKFISH, load_config
+from src.puzzle_manager import download_puzzles
 
 if len(sys.argv) < 2:
-    print("USAGE: py setup.py stockfish STOCKFISH_PATH  |  py setup.py uci ENGINE_NAME ENGINE_PATH")
+    print("USAGE:")
+    print("py setup.py stockfish STOCKFISH_PATH")
+    print("py setup.py uci ENGINE_NAME ENGINE_PATH")
+    print("py setup.py puzzles")
     exit(1)
 
 command = sys.argv[1]
@@ -21,6 +25,9 @@ if command == "stockfish":
         print("USAGE: py setup.py stockfish STOCKFISH_PATH")
         exit(3)
     config[STOCKFISH] = tokens[0]
+
+if command == "puzzles":
+    download_puzzles()
 
 f = open("config.json", "w")
 f.write(json.dumps(config))

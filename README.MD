@@ -10,7 +10,9 @@ Set uci engine path:
 
 ``py setup.py uci ENGINE_NAME ENGINE_PATH``
 
-Download puzzles from https://database.lichess.org/#puzzles , unpack and move to main directory
+Download puzzles:
+
+``py setup.py puzzles``
 
 ### Usage
 
