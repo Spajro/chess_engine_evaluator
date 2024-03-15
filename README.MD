@@ -1,73 +1,75 @@
 ## Chess Engine Evaluator
 
+Tools to test uci chess engines
+
+### Features
+
+- Automatic puzzle solving
+- Evaluating engine strength
+- Playing matches between engines
+- Playing matches against stockfish
+
 ### Setup
 
-Set stockfish path:
-
-`` py setup.py stockfish STOCKFISH_PATH``
-
-Set uci engine path:
-
-``py setup.py uci ENGINE_NAME ENGINE_PATH``
-
-Download puzzles:
-
-``py setup.py puzzles``
+- Set stockfish path:
+  `` py setup.py stockfish STOCKFISH_PATH``
+- Set uci engine path:
+  ``py setup.py uci ENGINE_NAME ENGINE_PATH``
+- Download puzzles:
+  ``py setup.py puzzles``
 
 ### Usage
 
-Evaluate uci engine
+- Evaluate uci engine
+  ``py evaluate.py ENGINE``
 
-``py evaluate.py ENGINE``
+- Play a match between two uci engines
+  ``py play.py ENGINE1 ENGINE2 GAMES_PER_COLOR``
 
-Play a match between two uci engines
+- Play a match between uci engine and stockfish
+  ``py play_stockfish.py ENGINE STOCKFISH_ELO GAMES_PER_COLOR``
 
-``py play.py ENGINE1 ENGINE2 GAMES_PER_COLOR``
+- Solve puzzles with engine:
+  ``py solve.py ENGINE PUZZLES_COUNT``
 
-Play a match between uci engine and stockfish of elo
+### Flags:
 
-``py play_stockfish.py ENGINE STOCKFISH_ELO GAMES_PER_COLOR``
+- #### Debug
 
-Solve puzzles with engine:
+    - Display uci messages: ``--verbose=uci``
 
-``py solve.py ENGINE PUZZLES_COUNT``
+    - Display board and clock: ``--verbose=board``
 
-### Debug
+    - Both of above: ``--verbose=full``
 
-Display uci messages: ``--verbose=uci``
+- #### Threading
 
-Display board and clock: ``--verbose=board``
+  Enable threading and set number of threads by flags:
 
-All of above: ``--verbose=full``
+    - ``--threads=2``
 
-### Threading
+    - ``--threads=5``
 
-Enable threading and set number of threads by flags:
+    - ``--threads=10``
 
-``--threads=2``
+    - ``--threads=20``
 
-``--threads=5``
+- #### Evaluation length
 
-``--threads=10``
+  Set number of games played in evaluation:
 
-``--threads=20``
+    - 50 ``--length=short`` (DEFAULT)
 
-### Evaluation length
+    - 100 ``--length=medium``
 
-Set number of games played in evaluation:
+    - 250 ``--length=long``
 
-``--length=short``
+- #### Time Control
 
-``--length=medium``
+  Set time control of games:
 
-``--length=long``
+    - 1 minute per game ``--time=bullet``
 
-### Time Control
+    - 5 minutes per game ``--time=blitz`` (DEFAULT)
 
-Set time control of games:
-
-``--time=bullet``
-
-``--time=blitz``
-
-``--time=rapid``
+    - 10 minutes per game ``--time=rapid``
