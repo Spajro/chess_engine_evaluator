@@ -1,4 +1,4 @@
-from src.puzzle import Puzzle
+from src.puzzle.puzzle import Puzzle
 
 
 class TagStats:

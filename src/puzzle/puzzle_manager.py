@@ -3,7 +3,7 @@ import urllib.request
 
 import zstandard
 
-from src.puzzle import Puzzle
+from src.puzzle.puzzle import Puzzle
 
 
 def load(k: int) -> [Puzzle]:
@@ -30,7 +30,7 @@ def __unpack(path: str, name: str):
     input_file = pathlib.Path(path)
     with open(input_file, 'rb') as compressed:
         decomp = zstandard.ZstdDecompressor()
-        output_path = pathlib.Path(".") / name
+        output_path = pathlib.Path("..") / name
         with open(output_path, 'wb') as destination:
             decomp.copy_stream(compressed, destination)
 

@@ -1,8 +1,8 @@
 import sys
 
 from src.puzzle import solve_puzzles
-from src.puzzle_manager import load
-from src.tag_stats import TagStats
+from src.puzzle.puzzle_manager import load
+from src.puzzle.tag_stats import TagStats
 from src.templates import UciEngineTemplate
 
 if len(sys.argv) < 2:

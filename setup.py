@@ -2,7 +2,7 @@ import json
 import sys
 
 from src.config import STOCKFISH, load_config
-from src.puzzle_manager import download_puzzles
+from src.puzzle.puzzle_manager import download_puzzles
 
 if len(sys.argv) < 2:
     print("USAGE:")
