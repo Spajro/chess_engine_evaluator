@@ -1,12 +1,12 @@
 import sys
 
-from src.puzzle import solve_puzzles
+from src.puzzle.puzzle import solve_puzzles
 from src.puzzle.puzzle_manager import load
 from src.puzzle.tag_stats import TagStats
 from src.templates import UciEngineTemplate
 
 if len(sys.argv) < 2:
-    print("SYNTAX: solve.py ENGINE PUZZLES_COUNT")
+    print("SYNTAX: py solve.py ENGINE PUZZLES_COUNT")
     exit(200)
 
 k = int(sys.argv[2])

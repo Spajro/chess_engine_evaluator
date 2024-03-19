@@ -5,7 +5,7 @@ from src.flags import get_eval_length
 from src.templates import UciEngineTemplate, StockfishEngineTemplate
 
 if len(sys.argv) < 2:
-    print("SYNTAX: evaluate.py ENGINE_NAME")
+    print("SYNTAX: py evaluate.py ENGINE_NAME")
     exit(200)
 
 elo = 1500
