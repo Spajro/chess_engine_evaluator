@@ -40,7 +40,7 @@ Tools to test uci chess engines
 
     - Display board and clock: ``--verbose=board``
 
-    - Both of above: ``--verbose=full``
+    - Display both of above: ``--verbose=full``
 
 - #### Threading
 
@@ -66,10 +66,10 @@ Tools to test uci chess engines
 
 - #### Time Control
 
-  Set time control of games:
+  Set time per game per player :
 
-    - 1 minute per game ``--time=bullet``
+    - 1 minute ``--time=bullet``
 
-    - 5 minutes per game ``--time=blitz`` (DEFAULT)
+    - 5 minutes  ``--time=blitz`` (DEFAULT)
 
-    - 10 minutes per game ``--time=rapid``
+    - 10 minutes  ``--time=rapid``
