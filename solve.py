@@ -1,5 +1,6 @@
 import sys
 
+from src.flags import get_failed, get_tag_stats, get_length_stats
 from src.puzzle.length_stats import LengthStats
 from src.puzzle.puzzle import solve_puzzles
 from src.puzzle.puzzle_manager import load
@@ -29,9 +30,15 @@ for solved, puzzle, optional_moves in result:
         failed.append(puzzle.__str__() + " | [" + ",".join(optional_moves) + "]")
 
 print("RESULT: " + str(score) + "/" + str(k))
-print("FAILED: ")
-print('\n'.join(failed))
-print("STATS FOR TAG:")
-print(tag_stats)
-print("STATS FOR LENGTH:")
-print(length_stats)
+
+if get_failed():
+    print("FAILED: ")
+    print('\n'.join(failed))
+
+if get_tag_stats():
+    print("STATS FOR TAG:")
+    print(tag_stats)
+
+if get_length_stats():
+    print("STATS FOR LENGTH:")
+    print(length_stats)

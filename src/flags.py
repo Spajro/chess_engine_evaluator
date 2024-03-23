@@ -25,12 +25,12 @@ def get_threads() -> int:
 
 def get_time_control() -> int:
     if "--time=bullet" in sys.argv:
-        return 60*1000
+        return 60 * 1000
     if "--time=blitz" in sys.argv:
-        return 5*60*1000
+        return 5 * 60 * 1000
     if "--time=rapid" in sys.argv:
-        return 10*60*1000
-    return 5*60*1000
+        return 10 * 60 * 1000
+    return 5 * 60 * 1000
 
 
 def get_board_debug() -> bool:
@@ -39,3 +39,15 @@ def get_board_debug() -> bool:
 
 def get_uci_debug() -> bool:
     return "--verbose=uci" in sys.argv or "--verbose=full" in sys.argv
+
+
+def get_tag_stats() -> bool:
+    return "--tags" in sys.argv
+
+
+def get_length_stats() -> bool:
+    return "--length" in sys.argv
+
+
+def get_failed() -> bool:
+    return "--failed" in sys.argv

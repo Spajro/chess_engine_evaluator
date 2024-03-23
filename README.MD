@@ -30,7 +30,7 @@ Tools to test uci chess engines
   ``py play_stockfish.py ENGINE STOCKFISH_ELO GAMES_PER_COLOR``
 
 - Solve puzzles with engine:
-  ``py solve.py ENGINE PUZZLES_COUNT``
+  ``py solve.py ENGINE PUZZLES_COUNT --tags --length --failed``
 
 ### Flags:
 
@@ -73,3 +73,9 @@ Tools to test uci chess engines
     - 5 minutes  ``--time=blitz`` (DEFAULT)
 
     - 10 minutes  ``--time=rapid``
+
+- #### Puzzle solving stats
+
+    - Print stats by puzzle tag ``--tags``
+    - Print stats by puzzle length ``--length``
+    - Print failed puzzles ``--failed``
