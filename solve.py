@@ -10,25 +10,27 @@ if len(sys.argv) < 2:
     print("SYNTAX: py solve.py ENGINE PUZZLES_COUNT")
     exit(200)
 
-k = int(sys.argv[2])
-puzzles = load(k)
-result = solve_puzzles(UciEngineTemplate(sys.argv[1]), puzzles)
-score = 0
 tag_stats = TagStats()
 length_stats = LengthStats()
 
-print("FAILED: ")
+k = int(sys.argv[2])
+puzzles = load(k)
+result = solve_puzzles(UciEngineTemplate(sys.argv[1]), puzzles)
+
+score = 0
+failed = []
+
 for solved, puzzle, optional_moves in result:
+    tag_stats.add_puzzle(solved, puzzle)
+    length_stats.add_puzzle(solved, puzzle)
     if solved:
         score += 1
-        tag_stats.add_puzzle(True, puzzle)
-        length_stats.add_puzzle(True, puzzle)
     else:
-        tag_stats.add_puzzle(False, puzzle)
-        length_stats.add_puzzle(False, puzzle)
-        print(puzzle.__str__() + " | [" + ",".join(optional_moves) + "]")
+        failed.append(puzzle.__str__() + " | [" + ",".join(optional_moves) + "]")
 
 print("RESULT: " + str(score) + "/" + str(k))
+print("FAILED: ")
+print('\n'.join(failed))
 print("STATS FOR TAG:")
 print(tag_stats)
 print("STATS FOR LENGTH:")
