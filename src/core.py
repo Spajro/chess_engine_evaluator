@@ -5,6 +5,7 @@ import time
 import chess
 import chess.pgn
 
+from src.engines import Engine
 from src.flags import get_threads, get_board_debug, get_time_control, get_result_debug
 from src.templates import EngineTemplate
 
@@ -12,6 +13,17 @@ board_debug = get_board_debug()
 result_debug = get_result_debug()
 threads = get_threads()
 game_time = get_time_control()
+
+WHITE_WIN = "1-0"
+BLACK_WIN = "0-1"
+DRAW = "1/2-1/2"
+
+
+def log_result(result: str, white: Engine, black: Engine, ply: int, on_time=False):
+    msg = white.name() + " " + result + " " + black.name() + " in " + str(ply) + " moves"
+    if on_time:
+        msg += " (lost on time)"
+    print(msg)
 
 
 def play_game(white_template: EngineTemplate, black_template: EngineTemplate) -> int:
@@ -53,14 +65,14 @@ def play_game(white_template: EngineTemplate, black_template: EngineTemplate) ->
                 print(board)
             if outcome.winner == chess.WHITE:
                 if result_debug:
-                    print(white.name() + " 1-0 " + black.name())
+                    log_result(WHITE_WIN, white, black, board.ply())
                 return 1
             if outcome.winner == chess.BLACK:
                 if result_debug:
-                    print(white.name() + " 0-1 " + black.name())
+                    log_result(BLACK_WIN, white, black, board.ply())
                 return -1
             if result_debug:
-                print(white.name() + " 1/2-1/2 " + black.name())
+                log_result(DRAW, white, black, board.ply())
             return 0
     white.quit()
     black.quit()
@@ -70,11 +82,11 @@ def play_game(white_template: EngineTemplate, black_template: EngineTemplate) ->
         print(board)
     if wtime <= 0:
         if result_debug:
-            print(white.name() + " 0-1 " + black.name() + " (time)")
+            log_result(BLACK_WIN, white, black, board.ply(), True)
         return -1
     if btime <= 0:
         if result_debug:
-            print(white.name() + " 1-0 " + black.name() + " (time)")
+            log_result(WHITE_WIN, white, black, board.ply(), True)
         return 1
     print("[ERROR] game result unknown")
     return 0
