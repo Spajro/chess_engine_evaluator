@@ -6,10 +6,11 @@ import chess
 import chess.pgn
 
 from src.engines import Engine
-from src.flags import get_threads, get_board_debug, get_time_control
+from src.flags import get_threads, get_board_debug, get_time_control, get_result_debug
 from src.templates import EngineTemplate
 
 board_debug = get_board_debug()
+result_debug = get_result_debug()
 threads = get_threads()
 game_time = get_time_control()
 
@@ -52,15 +53,15 @@ def play_game(white: Engine, black: Engine) -> int:
                 print("CLOCK: w=", wtime, "b=", btime)
                 print(board)
             if outcome.winner == chess.WHITE:
-                if board_debug:
-                    print("White win outcome")
+                if result_debug:
+                    print(white.name() + " 1-0 " + black.name())
                 return 1
             if outcome.winner == chess.BLACK:
-                if board_debug:
-                    print("Black win outcome")
+                if result_debug:
+                    print(white.name() + " 0-1 " + black.name())
                 return -1
-            if board_debug:
-                print("Draw")
+            if result_debug:
+                print(white.name() + " 1/2-1/2 " + black.name())
             return 0
     white.quit()
     black.quit()
@@ -69,13 +70,14 @@ def play_game(white: Engine, black: Engine) -> int:
         print("CLOCK: w=", wtime, "b=", btime)
         print(board)
     if wtime <= 0:
-        if board_debug:
-            print("Black win time")
+        if result_debug:
+            print(white.name() + " 0-1 " + black.name() + " (time)")
         return -1
     if btime <= 0:
-        if board_debug:
-            print("White win time")
+        if result_debug:
+            print(white.name() + " 1-0 " + black.name() + " (time)")
         return 1
+    print("[ERROR] game result unknown")
     return 0
 
 

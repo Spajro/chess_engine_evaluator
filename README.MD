@@ -40,6 +40,8 @@ Tools to test uci chess engines
 
     - Display board and clock: ``--verbose=board``
 
+    - Display games results ``--verbose=result``
+
     - Display both of above: ``--verbose=full``
 
 - #### Threading
