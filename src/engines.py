@@ -27,6 +27,9 @@ class Engine:
     def quit(self):
         pass
 
+    def name(self) -> str:
+        pass
+
 
 class UciEngine(Engine):
 
@@ -49,6 +52,8 @@ class UciEngine(Engine):
         return msg
 
     def __init__(self, engine_name: str):
+        self.engine_name = engine_name
+
         engine_path = config.get_path(engine_name)
         if engine_path is None:
             print("Unknown engine")
@@ -93,6 +98,9 @@ class UciEngine(Engine):
     def quit(self):
         self.__send("quit")
 
+    def name(self) -> str:
+        return self.engine_name
+
 
 class StockfishEngine(Engine):
     def __init__(self, elo):
@@ -129,3 +137,6 @@ class StockfishEngine(Engine):
 
     def quit(self):
         pass
+
+    def name(self) -> str:
+        return "stockfish"
