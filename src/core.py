@@ -5,7 +5,6 @@ import time
 import chess
 import chess.pgn
 
-from src.engines import Engine
 from src.flags import get_threads, get_board_debug, get_time_control, get_result_debug
 from src.templates import EngineTemplate
 
@@ -15,9 +14,9 @@ threads = get_threads()
 game_time = get_time_control()
 
 
-def play_game(white: Engine, black: Engine) -> int:
-    white.restart()
-    black.restart()
+def play_game(white_template: EngineTemplate, black_template: EngineTemplate) -> int:
+    white = white_template.get_instance()
+    black = black_template.get_instance()
     wtime = game_time
     btime = game_time
     white_move = True
@@ -85,8 +84,8 @@ def play_match(engine1: EngineTemplate,
                engine2: EngineTemplate,
                games_per_color: int,
                ) -> tuple[int, int, int]:
-    we = [(engine1.get_instance(), engine2.get_instance(), lambda x: x) for _ in range(games_per_color)]
-    be = [(engine2.get_instance(), engine1.get_instance(), lambda x: -1 * x) for _ in range(games_per_color)]
+    we = [(engine1, engine2, lambda x: x) for _ in range(games_per_color)]
+    be = [(engine2, engine1, lambda x: -1 * x) for _ in range(games_per_color)]
     data = we + be
 
     with concurrent.futures.ThreadPoolExecutor(threads) as executor:
