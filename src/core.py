@@ -1,10 +1,9 @@
 import concurrent.futures
-import math
-import time
 
 import chess
 import chess.pgn
 
+from src.clock import Clock
 from src.engines import Engine
 from src.flags import get_threads, get_board_debug, get_time_control, get_result_debug
 from src.templates import EngineTemplate
@@ -29,28 +28,25 @@ def log_result(result: str, white: Engine, black: Engine, ply: int, on_time=Fals
 def play_game(white_template: EngineTemplate, black_template: EngineTemplate) -> int:
     white = white_template.get_instance()
     black = black_template.get_instance()
-    wtime = game_time
-    btime = game_time
+    clock = Clock()
     white_move = True
     board = chess.Board()
-    while True and wtime > 0 and btime > 0:
+    while True and not clock.white.is_out_of_time() and not clock.black.is_out_of_time():
         if board_debug:
-            print("CLOCK: w=", wtime, "b=", btime)
+            print(clock)
             print(board)
 
         move = None
         if white_move:
-            stime = time.time() * 1000
-            move = white.make_move(wtime, btime).rstrip()
-            ftime = math.ceil(time.time() * 1000 - stime)
-            wtime -= ftime
+            clock.white.start()
+            move = white.make_move(clock.white.time_left, clock.black.time_left).rstrip()
+            clock.white.stop()
             black.update([move])
 
         if not white_move:
-            stime = time.time() * 1000
-            move = black.make_move(wtime, btime).rstrip()
-            ftime = math.ceil(time.time() * 1000 - stime)
-            btime -= ftime
+            clock.black.start()
+            move = black.make_move(clock.white.time_left, clock.black.time_left).rstrip()
+            clock.black.stop()
             white.update([move])
 
         white_move = not white_move
@@ -61,7 +57,7 @@ def play_game(white_template: EngineTemplate, black_template: EngineTemplate) ->
             black.quit()
             if board_debug:
                 print("FINAL:")
-                print("CLOCK: w=", wtime, "b=", btime)
+                print(clock)
                 print(board)
             if outcome.winner == chess.WHITE:
                 if result_debug:
@@ -78,13 +74,13 @@ def play_game(white_template: EngineTemplate, black_template: EngineTemplate) ->
     black.quit()
     if board_debug:
         print("FINAL:")
-        print("CLOCK: w=", wtime, "b=", btime)
+        print(clock)
         print(board)
-    if wtime <= 0:
+    if clock.white.is_out_of_time():
         if result_debug:
             log_result(BLACK_WIN, white, black, board.ply(), True)
         return -1
-    if btime <= 0:
+    if clock.black.is_out_of_time():
         if result_debug:
             log_result(WHITE_WIN, white, black, board.ply(), True)
         return 1
