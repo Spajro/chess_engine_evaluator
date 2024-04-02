@@ -12,6 +12,7 @@ def load(k: int) -> [Puzzle]:
     result = []
     for i in range(k):
         result.append(Puzzle(f.readline()))
+    f.close()
     return result
 
 
@@ -33,6 +34,8 @@ def __unpack(path: str, name: str):
         output_path = pathlib.Path("..") / name
         with open(output_path, 'wb') as destination:
             decomp.copy_stream(compressed, destination)
+            destination.close()
+        compressed.close()
 
 
 def __remove(path: str):
