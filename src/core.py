@@ -19,10 +19,19 @@ DRAW = "1/2-1/2"
 
 
 def log_result(result: str, white: Engine, black: Engine, ply: int, on_time=False):
+    if not result_debug:
+        return
     msg = white.name() + " " + result + " " + black.name() + " in " + str(ply) + " moves"
     if on_time:
         msg += " (lost on time)"
     print(msg)
+
+
+def log_state(board: chess.Board, clock: Clock):
+    if not board_debug:
+        return
+    print(board)
+    print(clock)
 
 
 def play_game(white_template: EngineTemplate, black_template: EngineTemplate) -> int:
@@ -32,9 +41,7 @@ def play_game(white_template: EngineTemplate, black_template: EngineTemplate) ->
     white_move = True
     board = chess.Board()
     while True and not clock.white.is_out_of_time() and not clock.black.is_out_of_time():
-        if board_debug:
-            print(clock)
-            print(board)
+        log_state(board, clock)
 
         move = None
         if white_move:
@@ -51,38 +58,30 @@ def play_game(white_template: EngineTemplate, black_template: EngineTemplate) ->
 
         white_move = not white_move
         board.push_uci(move)
+
         outcome = board.outcome()
         if outcome is not None:
             white.quit()
             black.quit()
-            if board_debug:
-                print("FINAL:")
-                print(clock)
-                print(board)
+            log_state(board, clock)
+
             if outcome.winner == chess.WHITE:
-                if result_debug:
-                    log_result(WHITE_WIN, white, black, board.ply())
+                log_result(WHITE_WIN, white, black, board.ply())
                 return 1
             if outcome.winner == chess.BLACK:
-                if result_debug:
-                    log_result(BLACK_WIN, white, black, board.ply())
+                log_result(BLACK_WIN, white, black, board.ply())
                 return -1
-            if result_debug:
-                log_result(DRAW, white, black, board.ply())
+            log_result(DRAW, white, black, board.ply())
             return 0
     white.quit()
     black.quit()
-    if board_debug:
-        print("FINAL:")
-        print(clock)
-        print(board)
+    log_state(board, clock)
+
     if clock.white.is_out_of_time():
-        if result_debug:
-            log_result(BLACK_WIN, white, black, board.ply(), True)
+        log_result(BLACK_WIN, white, black, board.ply(), True)
         return -1
     if clock.black.is_out_of_time():
-        if result_debug:
-            log_result(WHITE_WIN, white, black, board.ply(), True)
+        log_result(WHITE_WIN, white, black, board.ply(), True)
         return 1
     print("[ERROR] game result unknown")
     return 0
