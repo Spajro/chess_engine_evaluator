@@ -42,6 +42,8 @@ Tools to test uci chess engines
 
     - Display games results ``--verbose=result``
 
+    - Display games results and moves ``--verbose=result+moves`` 
+
     - Display both of above: ``--verbose=full``
 
 - #### Threading

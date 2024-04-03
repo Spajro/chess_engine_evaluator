@@ -42,7 +42,11 @@ def get_uci_debug() -> bool:
 
 
 def get_result_debug() -> bool:
-    return "--verbose=result" in sys.argv or "--verbose=full" in sys.argv
+    return "--verbose=result" in sys.argv or "--verbose=result+moves" in sys.argv or "--verbose=full" in sys.argv
+
+
+def get_moves_debug() -> bool:
+    return "--verbose=result+moves" in sys.argv or "--verbose=full" in sys.argv
 
 
 def get_tag_stats() -> bool:
