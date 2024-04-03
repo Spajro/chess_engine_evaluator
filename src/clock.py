@@ -12,6 +12,9 @@ class Clock:
     def __str__(self):
         return "CLOCK: w: " + str(self.white.time_left) + " b: " + str(self.black.time_left)
 
+    def out_of_time(self):
+        return self.white.out_of_time() or self.black.out_of_time()
+
 
 class SubClock:
     def __init__(self):
@@ -34,5 +37,5 @@ class SubClock:
         passed_time = math.ceil(time.time() * 1000 - self.time_started)
         self.time_left -= passed_time
 
-    def is_out_of_time(self) -> bool:
+    def out_of_time(self) -> bool:
         return self.time_left <= 0
