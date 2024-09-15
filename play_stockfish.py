@@ -1,8 +1,10 @@
 import sys
 
+from src.flags import summarize
 from src.core import play_match
 from src.templates import StockfishEngineTemplate, UciEngineTemplate
 
+print(summarize())
 if len(sys.argv) < 4:
     print("SYNTAX: py play_stockfish.py ENGINE STOCKFISH_ELO GAMES_PER_COLOR")
     exit(200)

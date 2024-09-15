@@ -1,9 +1,11 @@
 import sys
 
+from src.flags import summarize
 from src.core import play_match
 from src.flags import get_eval_length
 from src.templates import UciEngineTemplate, StockfishEngineTemplate
 
+print(summarize())
 if len(sys.argv) < 2:
     print("SYNTAX: py evaluate.py ENGINE_NAME")
     exit(200)

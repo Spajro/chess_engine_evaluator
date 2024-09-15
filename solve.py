@@ -1,12 +1,13 @@
 import sys
 
-from src.flags import get_failed, get_tag_stats, get_length_stats
+from src.flags import get_failed, get_tag_stats, get_length_stats, summarize
 from src.puzzle.length_stats import LengthStats
 from src.puzzle.puzzle import solve_puzzles
 from src.puzzle.puzzle_manager import load
 from src.puzzle.tag_stats import TagStats
 from src.templates import UciEngineTemplate
 
+print(summarize())
 if len(sys.argv) < 2:
     print("SYNTAX: py solve.py ENGINE PUZZLES_COUNT")
     exit(200)

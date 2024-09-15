@@ -1,6 +1,24 @@
 import sys
 
 
+def summarize() -> str:
+    return ("{GENERAL:" +
+            "\neval_length = " + str(get_eval_length()) +
+            "\nthreads = " + str(get_threads()) +
+            "\ntime_control = " + str(get_time_control()) +
+            "\nVERBOSE:" +
+            "\nboard = " + str(get_board_debug()) +
+            "\nuci = " + str(get_uci_debug()) +
+            "\nmoves = " + str(get_moves_debug()) +
+            "\nresult = " + str(get_result_debug()) +
+            "\nPUZZLE:" +
+            "\ntags = " + str(get_tag_stats()) +
+            "\nlength = " + str(get_length_stats()) +
+            "\nfailed = " + str(get_failed())
+            + "}"
+            )
+
+
 def get_eval_length() -> int:
     if "--length=short" in sys.argv:
         return 5
