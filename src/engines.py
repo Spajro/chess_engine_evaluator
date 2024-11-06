@@ -64,6 +64,13 @@ class UciEngine(Engine):
         self.__send("uci")
         name = self.__read()
         uci = self.__read()
+
+        for k, v in config.get_options(engine_name):
+            msg = "setoption name " + k
+            if v is not None:
+                msg += " value " + v
+            self.__send(msg)
+
         self.__send("isready")
         readyok = self.__read()
         self.__send("ucinewgame")

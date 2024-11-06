@@ -9,6 +9,10 @@ def get_path(engine_name: str) -> str | None:
     return config[engine_name]["path"]
 
 
+def get_options(engine_name: str) -> [(str, str | None)]:
+    return [(k, v) for k, v in load_config()[engine_name].items() if k != "path"]
+
+
 def load_config() -> dict:
     if not os.path.exists("config.json"):
         return dict()
