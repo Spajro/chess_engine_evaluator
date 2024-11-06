@@ -6,7 +6,7 @@ STOCKFISH = "stockfish"
 
 def get_path(engine_name: str) -> str | None:
     config = load_config()
-    return config[engine_name]
+    return config[engine_name]["path"]
 
 
 def load_config() -> dict:

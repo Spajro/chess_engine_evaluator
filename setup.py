@@ -18,13 +18,15 @@ if command == "uci":
     if len(tokens) < 2:
         print("USAGE: py setup.py uci ENGINE_NAME ENGINE_PATH")
         exit(2)
-    config[tokens[0]] = tokens[1]
+    config[tokens[0]] = {}
+    config[tokens[0]]["path"] = tokens[1]
 
 if command == "stockfish":
     if len(tokens) < 1:
         print("USAGE: py setup.py stockfish STOCKFISH_PATH")
         exit(3)
-    config[STOCKFISH] = tokens[0]
+    config[STOCKFISH] = {}
+    config[STOCKFISH]["path"] = tokens[0]
 
 if command == "puzzles":
     download_puzzles()
