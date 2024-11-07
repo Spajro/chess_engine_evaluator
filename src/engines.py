@@ -21,6 +21,9 @@ class Engine:
     def make_move_time(self, move_time: int) -> str:
         pass
 
+    def eval(self) -> float:
+        pass
+
     def restart(self):
         pass
 
@@ -99,6 +102,15 @@ class UciEngine(Engine):
             tokens = result.split(' ')
         return tokens[1].strip()
 
+    def eval(self) -> float:
+        msg = "eval\n"
+        self.__send(msg)
+        tokens = ["null"]
+        while tokens[0] != "eval":
+            result = self.__read()
+            tokens = result.split(' ')
+        return float(tokens[1].strip())
+
     def restart(self):
         self.__send("ucinewgame")
 
@@ -138,6 +150,9 @@ class StockfishEngine(Engine):
             print(self.stock.get_board_visual())
         self.update([result])
         return result
+
+    def eval(self) -> float:
+        return self.stock.get_evaluation()["cp"]
 
     def restart(self):
         self.stock.set_position()
