@@ -8,6 +8,7 @@ Tools to test uci chess engines
 - Evaluating engine strength
 - Playing matches between engines
 - Playing matches against stockfish
+- Testing engine evaluation function
 
 ### Setup
 
@@ -31,6 +32,9 @@ Tools to test uci chess engines
 
 - Solve puzzles with engine:
   ``py solve.py ENGINE PUZZLES_COUNT --tags --length --failed``
+
+- Test engine evaluation function:
+  ``py test_eval.py ENGINE TEST_LENGTH"``
 
 ### Flags:
 
