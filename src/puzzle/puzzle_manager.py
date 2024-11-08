@@ -6,12 +6,17 @@ import zstandard
 from src.puzzle.puzzle import Puzzle
 
 
-def load(k: int) -> [Puzzle]:
+def load(k: int, mates=True) -> [Puzzle]:
     f = open("lichess_db_puzzle.csv")
     f.readline()
     result = []
-    for i in range(k):
-        result.append(Puzzle(f.readline()))
+    i = 0
+    while i < k:
+        puzzle = Puzzle(f.readline())
+        if 'mate' in puzzle.tags and not mates:
+            continue
+        result.append(puzzle)
+        i += 1
     f.close()
     return result
 
