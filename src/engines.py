@@ -152,7 +152,7 @@ class StockfishEngine(Engine):
         return result
 
     def eval(self) -> float:
-        return self.stock.get_evaluation()["cp"]
+        return self.stock.get_evaluation()['value']
 
     def restart(self):
         self.stock.set_position()
