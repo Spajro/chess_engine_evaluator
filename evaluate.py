@@ -11,8 +11,8 @@ if len(sys.argv) < 2:
     exit(200)
 
 elo = 1500
-max_elo = 3000
-min_elo = 0
+max_elo = 0
+min_elo = 3000
 for ed in [500, 400, 300, 200, 100]:
     win, draw, lose = play_match(UciEngineTemplate(sys.argv[1]),
                                  StockfishEngineTemplate(elo),
@@ -24,9 +24,9 @@ for ed in [500, 400, 300, 200, 100]:
 
     elo += rating_change
 
-    if rating_change > 0 and elo > min_elo:
-        min_elo = elo
-    if rating_change < 0 and elo < max_elo:
+    if rating_change > 0 and elo > max_elo:
         max_elo = elo
+    if rating_change < 0 and elo < min_elo:
+        min_elo = elo
 
-print("Evaluated elo: ", elo, " min win: ", min_elo, " max lose: ", max_elo)
+print("Evaluated elo: ", elo, " min lose: ", min_elo, " max win: ", max_elo)
