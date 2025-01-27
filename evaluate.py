@@ -18,7 +18,7 @@ for ed in [500, 400, 300, 200, 100]:
                                  StockfishEngineTemplate(elo),
                                  get_eval_length())
 
-    rating_change = ed * (win - lose) / 10
+    rating_change = ed * (win - lose) / (2 * get_eval_length())
 
     print("Result: ", win, '-', draw, '-', lose, " vs elo:", elo, " rating change: ", rating_change)
 
