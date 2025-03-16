@@ -54,4 +54,4 @@ result = 0.0
 for i in range(k):
     result += abs(engine_result[i] - stockfish_result[i])
 
-print("Evaluation mean absolute error: ", result / (2 * k))
+print("Evaluation mean absolute error: ", result / k)
