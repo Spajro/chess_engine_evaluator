@@ -79,13 +79,13 @@ class UciEngine(Engine):
         self.__send("ucinewgame")
 
     def update(self, moves: [str]):
-        self.__send("position startpos " + " ".join(moves) + "\n")
+        self.__send("position startpos " + " ".join(moves))
 
     def update_fen(self, fen: str, moves: [str]):
-        self.__send("position " + fen + " " + " ".join(moves) + "\n")
+        self.__send("position " + fen + " " + " ".join(moves))
 
     def make_move(self, wtime: int, btime: int) -> str:
-        msg = "go wtime " + str(wtime) + " btime " + str(btime) + "\n"
+        msg = "go wtime " + str(wtime) + " btime " + str(btime)
         self.__send(msg)
         tokens = ["null"]
         while tokens[0] != "bestmove":
@@ -94,7 +94,7 @@ class UciEngine(Engine):
         return tokens[1].strip()
 
     def make_move_time(self, move_time: int) -> str:
-        msg = "go movetime " + str(move_time) + "\n"
+        msg = "go movetime " + str(move_time)
         self.__send(msg)
         tokens = ["null"]
         while tokens[0] != "bestmove":
@@ -103,7 +103,7 @@ class UciEngine(Engine):
         return tokens[1].strip()
 
     def eval(self) -> float:
-        msg = "eval\n"
+        msg = "eval"
         self.__send(msg)
         tokens = ["null"]
         while tokens[0] != "eval":
